@@ -9,27 +9,48 @@ import SwiftUI
 
 struct ContentView: View {
 
-    @State private var afficherAlerte: Bool = false
 
-    @State var titreAlerte = "Bien joué!"
-    @State var textAlerte = "Cliquer pour rejouer"
-    @State var textBouttonAlerte = "Rejouer"
+    @State private var afficherAlerte: Bool = false
+    @State private var titreAlerte: String = ""
+    @State private var nomImageCarte: String = "card-back2"
+
+    let paquet = Paquet()
+
 
     var body: some View {
+
+        var nombreCouleur = paquet.tirerUneCouleur()
+        var typeCarte = paquet.tirerUnTypeSelonCouleur(numcouleur: nombreCouleur)
+        var nomImageCarteTirer = paquet.recevoirNomImage(typeCarte: typeCarte)
 
         NavigationView {
 
             VStack {
-                Text("Devinez la couleur")
+                Text("Devinez la couleur de la carte")
                 .padding()
 
-                Button(action: {
-                    _ = validerPartie(nomCouleur:"Rouge")
-                }) { Text("Rouge") }
+                HStack {
+                    Button(action: {
+                        titreAlerte = validerPartie(nomCouleur:"Rouge", nombreCouleur: nombreCouleur)
+                        nomImageCarte = nomImageCarteTirer
+                        afficherAlerte.toggle()
+                    }) { Text("Rouge") }
 
-                Button(action: {
-                    _ = validerPartie(nomCouleur:"Noir")
-                }) { Text("Noire") }
+                    Button(action: {
+                        titreAlerte = validerPartie(nomCouleur:"Noire", nombreCouleur: nombreCouleur)
+                        nomImageCarte = nomImageCarteTirer
+                        afficherAlerte.toggle()
+                    }) { Text("Noire") }
+                }
+
+                Image(nomImageCarte)
+                    .resizable()
+                    .scaledToFit()
+                .onAppear {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+
+                    }
+                }
             }
 
             .toolbar(content: {
@@ -39,23 +60,29 @@ struct ContentView: View {
             })
         }
 
-        
+
         .alert(titreAlerte, isPresented: $afficherAlerte) {
+
             
         }
+        .onAppear {
+            nombreCouleur = paquet.tirerUneCouleur()
+            typeCarte = paquet.tirerUnTypeSelonCouleur(numcouleur: nombreCouleur)
+            nomImageCarteTirer = paquet.recevoirNomImage(typeCarte: typeCarte)
+        }
     }
-    
-    func validerPartie(nomCouleur: String ) -> Int{
-         // nombreCouleur Rouge = 0 Noire = 1
-        let nombreCouleur = Int.random(in: 0..<1)
 
-        if(nombreCouleur == 0 && nomCouleur == "Noire"
-            || nombreCouleur == 1 && nomCouleur == "Rouge") {
+    public func validerPartie(nomCouleur: String, nombreCouleur: Int) -> String{
+        var titreAlerte = "Bien joué!"
+
+        if( (nombreCouleur == 0 && nomCouleur == "Noire")
+            || (nombreCouleur == 1 && nomCouleur == "Rouge") ) {
             titreAlerte = "Dommage!"
         }
-        afficherAlerte.toggle()
-        return nombreCouleur
+        return titreAlerte
     }
+    
+
 }
 
 struct ContentView_Previews: PreviewProvider {
