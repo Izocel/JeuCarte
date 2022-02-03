@@ -1,6 +1,7 @@
 {
   "images" : [
     {
+      "filename" : "card-back2.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "20x20"
