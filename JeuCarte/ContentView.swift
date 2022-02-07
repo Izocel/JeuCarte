@@ -16,13 +16,12 @@ struct ContentView: View {
 
     let paquet = Paquet()
 
-
     var body: some View {
 
-        var nombreCouleur = paquet.tirerUneCouleur()
-        var typeCarte = paquet.tirerUnTypeSelonCouleur(numcouleur: nombreCouleur)
-        var nomImageCarteTirer = paquet.recevoirNomImage(typeCarte: typeCarte)
-
+        let carte = paquet.tirerUneCarteDispo()
+        let fichierImageCarte = carte.getImage()
+        let couleurCarte = caret.getCouleur()
+        
         NavigationView {
 
             VStack {
@@ -31,14 +30,14 @@ struct ContentView: View {
 
                 HStack {
                     Button(action: {
-                        titreAlerte = validerPartie(nomCouleur:"Rouge", nombreCouleur: nombreCouleur)
-                        nomImageCarte = nomImageCarteTirer
+                        titreAlerte = validerPartie(nomCouleurJoueur:"Rouge", nomCouleurCarte: couleurCarte)
+                        nomImageCarte = fichierImageCarte
                         afficherAlerte.toggle()
                     }) { Text("Rouge") }
 
                     Button(action: {
-                        titreAlerte = validerPartie(nomCouleur:"Noire", nombreCouleur: nombreCouleur)
-                        nomImageCarte = nomImageCarteTirer
+                        titreAlerte = validerPartie(nomCouleurJoueur:"Noire", nomCouleurCarte: couleurCarte)
+                        nomImageCarte = fichierImageCarte
                         afficherAlerte.toggle()
                     }) { Text("Noire") }
                 }
@@ -72,16 +71,13 @@ struct ContentView: View {
         }
     }
 
-    public func validerPartie(nomCouleur: String, nombreCouleur: Int) -> String{
+    public func validerPartie(nomCouleurJoueur: String, nomCouleurCarte: String) -> String{
         var titreAlerte = "Bien joué!"
-
-        if( (nombreCouleur == 0 && nomCouleur == "Noire")
-            || (nombreCouleur == 1 && nomCouleur == "Rouge") ) {
+        if( (nomCouleurJoueur == nomCouleurCarte) {
             titreAlerte = "Dommage!"
         }
         return titreAlerte
     }
-    
 
 }
 

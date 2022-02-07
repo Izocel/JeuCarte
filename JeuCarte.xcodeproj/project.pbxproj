@@ -77,6 +77,7 @@
 		6AE3DC0C27A4D9C900D12FD4 = {
 			isa = PBXGroup;
 			children = (
+				891501BA27AC12BC00D4DD61 /* Paquet.swift */,
 				6AE3DC1727A4D9C900D12FD4 /* JeuCarte */,
 				6AE3DC2927A4D9D200D12FD4 /* JeuCarteTests */,
 				6AE3DC3427A4D9D200D12FD4 /* JeuCarteUITests */,
