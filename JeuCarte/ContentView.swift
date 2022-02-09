@@ -46,16 +46,20 @@ struct ContentView: View {
                         )
                         afficherAlerte.toggle()
                     }) { Text("Rouge") }
+                    .buttonStyle(BtnPrincipalStyle)
 
                     Button(action: {
                         nomImageCarte = fichierImageCarte
-                        titreAlerte = validerPartie(nomCouleurJoueur:"Noire", 
+                        titreAlerte = validerPartie(nomCouleurJoueur:"Noire",
                             nomCouleurCarte: couleurCarte,
                             imageCarte: nomImageCarte
                         )
-                        
                         afficherAlerte.toggle()
                     }) { Text("Noire") }
+                     .buttonStyle(BtnPrincipalStyle)
+                     .background(
+                        Color.black.opacity(configuration.isPressed ? 0.5 : 1)
+                    )
                 }
 
                 Image(nomImageCarte)
