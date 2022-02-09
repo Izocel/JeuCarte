@@ -15,10 +15,14 @@ struct ContentView: View {
     @State private var nomImageCarte: String = "card-back2"
     @State private var selection: Item?
 
+    
+
     let paquet = Paquet()
     let listeCarteDepart = paquet.creeListeCartes()
     var listeCarteDispo = listeCarteDepart
     var listeCarteIndispo = []
+
+    var logPartie = []
 
     var body: some View {
 
@@ -34,14 +38,21 @@ struct ContentView: View {
 
                 HStack {
                     Button(action: {
-                        titreAlerte = validerPartie(nomCouleurJoueur:"Rouge", nomCouleurCarte: couleurCarte)
                         nomImageCarte = fichierImageCarte
+                        titreAlerte = validerPartie(nomCouleurJoueur:"Rouge",
+                            nomCouleurCarte: couleurCarte, 
+                            imageCarte: nomImageCarte
+                        )
                         afficherAlerte.toggle()
                     }) { Text("Rouge") }
 
                     Button(action: {
-                        titreAlerte = validerPartie(nomCouleurJoueur:"Noire", nomCouleurCarte: couleurCarte)
                         nomImageCarte = fichierImageCarte
+                        titreAlerte = validerPartie(nomCouleurJoueur:"Noire", 
+                            nomCouleurCarte: couleurCarte,
+                            imageCarte: nomImageCarte
+                        )
+                        
                         afficherAlerte.toggle()
                     }) { Text("Noire") }
                 }
@@ -75,11 +86,13 @@ struct ContentView: View {
         }
     }
 
-    public func validerPartie(nomCouleurJoueur: String, nomCouleurCarte: String) -> String{
-        var titreAlerte = "Bien joué!"
-        if( (nomCouleurJoueur == nomCouleurCarte) {
-            titreAlerte = "Dommage!"
+    public func validerPartie(nomCouleurJoueur: String, nomCouleurCarte: String, imageCarte: String) -> String{
+        var titreAlerte = "Dommage!"
+        var gagner = nomCouleurJoueur == nomCouleurCarte
+        if( (gagner) {
+            titreAlerte = "Bien joué"   
         }
+        logPartie.append(LogPartie(trouver, nomImageCarte))
         return titreAlerte
     }
 
