@@ -13,12 +13,16 @@ struct ContentView: View {
     @State private var afficherAlerte: Bool = false
     @State private var titreAlerte: String = ""
     @State private var nomImageCarte: String = "card-back2"
+    @State private var selection: Item?
 
     let paquet = Paquet()
+    let listeCarteDepart = paquet.creeListeCartes()
+    var listeCarteDispo = listeCarteDepart
+    var listeCarteIndispo = []
 
     var body: some View {
 
-        let carte = paquet.tirerUneCarteDispo()
+        let carte = paquet.tirerCarteDessus()
         let fichierImageCarte = carte.getImage()
         let couleurCarte = caret.getCouleur()
         
@@ -65,9 +69,9 @@ struct ContentView: View {
             
         }
         .onAppear {
-            nombreCouleur = paquet.tirerUneCouleur()
-            typeCarte = paquet.tirerUnTypeSelonCouleur(numcouleur: nombreCouleur)
-            nomImageCarteTirer = paquet.recevoirNomImage(typeCarte: typeCarte)
+            carte = paquet.tirerCarteDessus()
+            fichierImageCarte = carte.getImage()
+            couleurCarte = caret.getCouleur()
         }
     }
 
