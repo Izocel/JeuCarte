@@ -29,7 +29,7 @@ struct ContentView: View {
         let fichierImageCarte = carte.getImage()
         let couleurCarte = caret.getCouleur()
         
-        NavigationView {
+        NavigationView : MenuView() {
 
             VStack {
                 Text("Devinez la couleur de la carte")
