@@ -15,14 +15,13 @@ struct ContentView: View {
     @State private var nomImageCarte: String = "card-back2"
     @State private var selection: Item?
 
-    
-
     let paquet = Paquet()
     let listeCarteDepart = paquet.creeListeCartes()
     var listeCarteDispo = listeCarteDepart
     var listeCarteIndispo = []
 
     var logPartie = []
+    var pointJoueur = 0
 
     var body: some View {
 
@@ -34,6 +33,8 @@ struct ContentView: View {
 
             VStack {
                 Text("Devinez la couleur de la carte")
+                .padding()
+                Text("Points: " + pointJoueur)
                 .padding()
 
                 HStack {
@@ -90,6 +91,7 @@ struct ContentView: View {
         var titreAlerte = "Dommage!"
         var gagner = nomCouleurJoueur == nomCouleurCarte
         if( (gagner) {
+            pointJoueur++
             titreAlerte = "Bien joué"   
         }
         logPartie.append(LogPartie(trouver, nomImageCarte))
