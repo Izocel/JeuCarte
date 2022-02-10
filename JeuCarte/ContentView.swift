@@ -28,9 +28,9 @@ struct ContentView: View {
         var listeCarteDispo = listeCarteDepart
    
 
-        let carte = paquet.tirerCarteDessus()
-        let fichierImageCarte = carte.getImage()
-        let couleurCarte = carte.getCouleur()
+        var carte = paquet.tirerCarteDessus()
+        var fichierImageCarte = carte.getImage()
+        var couleurCarte = carte.getCouleur()
         
         NavigationView {
 
@@ -48,8 +48,8 @@ struct ContentView: View {
                             imageCarte: nomImageCarte
                         )
                         afficherAlerte.toggle()
-                    }) { Text("Rouge") }
-                    .buttonStyle(BtnPrincipalStyle)
+                    }) { Text("Rouge") 
+                    }
 
                     Button(action: {
                         nomImageCarte = fichierImageCarte
@@ -58,11 +58,9 @@ struct ContentView: View {
                             imageCarte: nomImageCarte
                         )
                         afficherAlerte.toggle()
-                    }) { Text("Noire") }
-                     .buttonStyle(BtnPrincipalStyle)
-                     .background(
-                        Color.black.opacity(configuration.isPressed ? 0.5 : 1)
-                    )
+                    }) { Text("Noire")
+                        
+                    }
                 }
 
                 Image(nomImageCarte)
@@ -90,7 +88,7 @@ struct ContentView: View {
         .onAppear {
             carte = paquet.tirerCarteDessus()
             fichierImageCarte = carte.getImage()
-            couleurCarte = caret.getCouleur()
+            couleurCarte = carte.getCouleur()
         }
     }
 
@@ -101,7 +99,7 @@ struct ContentView: View {
             pointJoueur++
             titreAlerte = "Bien joué"   
         }
-        logPartie.append(LogPartie(trouver, nomImageCarte))
+            logPartie.append(LogPartie(gagner: trouver, imageAssoc: nomImageCarte))
         return titreAlerte
     }
 

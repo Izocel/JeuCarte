@@ -4,7 +4,6 @@ struct LogPartie : Identifiable  {
     var id = UUID()
     private var gagner: Bool
     private var imageAssoc: String
-    private var imageAssoc: String
 }
 
 extension LogPartie {

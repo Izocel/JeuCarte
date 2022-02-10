@@ -2,7 +2,7 @@ import Foundation
 
 struct Paquet {
     var id = UUID()
-    private let listeCartes : [Carte] = [];
+    private var listeCartes : [Carte] = [];
     private var listeCartesJeu : [Carte] = [];
     private var listeCartesDispo : [Carte] = [];
     private var listeCartesIndispo : [Carte] = [];
@@ -20,23 +20,24 @@ struct Paquet {
         brasserLejeu()
     }
 
-    public func tirerCarteDessus() : Carte {
+    public mutating func tirerCarteDessus() -> Carte {
         let carte = listeCartesJeu[0]
         rendreCarteIndispo(index: 0)
         return carte
     }
 
-    public func nbCarteEnJeu() : Int {
-        return listeCartesJeu.count();
+
+    public func nbCarteEnJeu() -> Int {
+        return listeCartesJeu.count;
     }
 
-    public func brasserLejeu() : Void {
-        listeCartesJeu.clear()
-        listeCartesDispo.clear()
-        listeCartesIndispo.clear()
-        var n = listeCartes.count()-1
+    public mutating func brasserLejeu() -> Void {
+        listeCartesJeu.removeAll()
+        listeCartesDispo.removeAll()
+        listeCartesIndispo.removeAll()
+        let n = listeCartes.count-1
 
-        for i in 0...n {
+        for _ in 0...n {
             listeCartesJeu.append(
                 tirerCarteDispoHasard()
             )
@@ -44,29 +45,32 @@ struct Paquet {
         listeCartesDispo = listeCartesJeu
     }
 
-    public func creeListeCartes() : [Carte] {
-        var liste  = []
-        let n = imageCartes.count()-1
+    public mutating func creeListeCartes() -> [Carte] {
+        var liste: [Carte]  = []
+        let n = imagesCartes.count-1
         for i in 0...n {
-            liste.append(Carte(indexImage: i))
+            let image = imagesCartes[i]
+            liste.append(Carte(imageAssoc: image))
         }
         listeCartesDispo = liste
 
         return liste
     }
         
-    private func tirerCarteDispoHasard(): Carte {
-        let n = listeCartesDispo.count()-1
+    private mutating func tirerCarteDispoHasard() -> Carte {
+        let n = listeCartesDispo.count-1
+        var carte:Carte = Carte(imageAssoc: "")
 
         if(n > 0){
             let rnd = Int.random(in: 0...n)
-            let carte = listeCartesDispo[rnd]
+            carte = listeCartesDispo[rnd]
             rendreCarteIndispo(index: rnd)
         }
+        return carte
     }
     
-    private func rendreCarteIndispo(index: Int) : void {
-        cartIndispo.append(listeCartesDispo[index])
+    private mutating func rendreCarteIndispo(index: Int) ->  Void{
+        listeCartesIndispo.append(listeCartesDispo[index])
         listeCartesDispo.remove(at: index)
     }
     
