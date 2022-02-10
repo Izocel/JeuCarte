@@ -13,28 +13,31 @@ struct ContentView: View {
     @State private var afficherAlerte: Bool = false
     @State private var titreAlerte: String = ""
     @State private var nomImageCarte: String = "card-back2"
-    @State private var selection: Item?
+    // @State private var selection: Item?
 
     let paquet = Paquet()
-    let listeCarteDepart = paquet.creeListeCartes()
-    var listeCarteDispo = listeCarteDepart
-    var listeCarteIndispo = []
 
-    var logPartie = []
     var pointJoueur = 0
+    var logPartie:[LogPartie]
+    var listeCarteIndispo: [Carte]
+    
 
     var body: some View {
+        
+        let listeCarteDepart = paquet.creeListeCartes()
+        var listeCarteDispo = listeCarteDepart
+   
 
         let carte = paquet.tirerCarteDessus()
         let fichierImageCarte = carte.getImage()
-        let couleurCarte = caret.getCouleur()
+        let couleurCarte = carte.getCouleur()
         
-        NavigationView : MenuView() {
+        NavigationView {
 
             VStack {
                 Text("Devinez la couleur de la carte")
                 .padding()
-                Text("Points: " + pointJoueur)
+                Text("Points: " + String(pointJoueur))
                 .padding()
 
                 HStack {
