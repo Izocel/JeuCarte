@@ -13,21 +13,17 @@ struct ContentView: View {
     @State private var afficherAlerte: Bool = false
     @State private var titreAlerte: String = ""
     @State private var nomImageCarte: String = "card-back2"
-    // @State private var selection: Item?
+    @State private var pointJoueur: Int = 0
+    @State private var  logPartie:[LogPartie] = []
 
-    let paquet = Paquet()
-
-    var pointJoueur = 0
-    var logPartie:[LogPartie]
-    var listeCarteIndispo: [Carte]
+    private var paquet = Paquet()
+    private var listeCarteDepart: [Carte] = []
     
 
     var body: some View {
         
-        let listeCarteDepart = paquet.creeListeCartes()
-        var listeCarteDispo = listeCarteDepart
-   
-
+    
+       
         var carte = paquet.tirerCarteDessus()
         var fichierImageCarte = carte.getImage()
         var couleurCarte = carte.getCouleur()
@@ -94,15 +90,19 @@ struct ContentView: View {
 
     public func validerPartie(nomCouleurJoueur: String, nomCouleurCarte: String, imageCarte: String) -> String{
         var titreAlerte = "Dommage!"
-        var gagner = nomCouleurJoueur == nomCouleurCarte
-        if( (gagner) {
-            pointJoueur++
-            titreAlerte = "Bien joué"   
+        let gagner = nomCouleurJoueur == nomCouleurCarte
+        if(gagner) {
+            pointJoueur += 1
+            titreAlerte = "Bien joué"
+            loggerPartie(gagner: true, nomImageCarte: imageCarte, scoreJoueur: pointJoueur)
         }
-            logPartie.append(LogPartie(gagner: trouver, imageAssoc: nomImageCarte))
+        loggerPartie(gagner: false, nomImageCarte: imageCarte, scoreJoueur: pointJoueur)
         return titreAlerte
     }
-
+    
+    public func loggerPartie(gagner: Bool, nomImageCarte: String, scoreJoueur: Int) {
+        logPartie.append(LogPartie(gagner: gagner, imageAssoc: nomImageCarte))
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
